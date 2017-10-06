@@ -1,0 +1,29 @@
+# -*- coding: utf-8 -*-
+import urllib2
+import urllib
+import socket
+
+def updateIp():
+    url = "http://ip.chinaz.com/getip.aspx"
+    socket.setdefaulttimeout(3)
+    with open("ip.txt","r") as f:
+        lines = f.readlines()
+    with open("ip.txt","w") as f_w:
+        for line in lines:
+            ip = line.strip().split("\t")
+            proxy_host = "http://"+ip[0]+":"+ip[1]
+            proxy_temp = {"http":proxy_host}
+            try:
+                res = urllib.urlopen(url,proxies=proxy_temp).read()
+                f_w.write(line)
+            except Exception,e:
+                continue
+                
+def readIP(filename):
+	with open(filename,"r") as f:
+        lines = f.readlines()
+        return lines
+
+   
+if __name__ == '__main__':
+ updateIp()
